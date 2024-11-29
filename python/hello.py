@@ -9,9 +9,12 @@ int hello_world(void *ctx) {
 """
 try:
     b = BPF(text=program)
-    syscall = b.get_syscall_fnname("execve")
-    b.attach_kprobe(event=syscall, fn_name="hello_world")
+    syscall = b.get_syscall_fnname("execve")  # get every event that execute
+    b.attach_kprobe(
+        event=syscall, fn_name="hello_world"
+    )  # attach kprobe function hello_world
     b.trace_print()
 
 except KeyboardInterrupt:
     print("Exiting...")
+

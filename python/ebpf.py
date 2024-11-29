@@ -2,6 +2,8 @@
 from bcc import BPF
 from time import sleep
 
+# Everytime that user run command it will count number up along with userID
+
 program = """
 BPF_HASH(clones);
 
@@ -28,11 +30,12 @@ clone = b.get_syscall_fnname("clone")
 b.attach_kprobe(event=clone, fn_name="hello_world")
 
 while True:
-   sleep(2)
-   s = ""
-   if len(b["clones"].items()):
-      for k,v in b["clones"].items():
-         s += "ID {}: {}\t".format(k.value, v.value)
-      print(s)
-   else:
-      print("No entries yet")
+    sleep(2)
+    s = ""
+    if len(b["clones"].items()):
+        for k, v in b["clones"].items():
+            s += "ID {}: {}\t".format(k.value, v.value)
+        print(s)
+    else:
+        print("No entries yet")
+
