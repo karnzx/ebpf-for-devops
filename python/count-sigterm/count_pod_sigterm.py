@@ -32,6 +32,7 @@ bpf = BPF(text=ebpf_program)
 bpf.attach_kprobe(event="sys_kill", fn_name="trace_kill")
 print("Tracing SIGTERM syscalls... Press Ctrl+C to stop.")
 
+
 # 4. Function to map PID to Pod
 def get_pod_by_pid(pid):
     for pod in v1.list_pod_for_all_namespaces().items:
@@ -45,6 +46,7 @@ def get_pod_by_pid(pid):
             pass
     return "Unknown Pod"
 
+
 # 5. Monitor syscalls and map them to Pods
 try:
     while True:
@@ -55,3 +57,4 @@ try:
         time.sleep(2)
 except KeyboardInterrupt:
     print("Exiting...")
+

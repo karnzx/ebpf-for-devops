@@ -3,7 +3,8 @@ from bcc import BPF
 from time import sleep
 
 # eBPF Program
-bpf = BPF(text="""
+bpf = BPF(
+    text="""
 #include <uapi/linux/ptrace.h>
 #include <linux/sched.h>
 
@@ -32,7 +33,8 @@ int trace_kill(struct pt_regs *ctx, int pid, int sig) {
     }
     return 0;
 }
-""")
+"""
+)
 
 # Attach to syscall
 syscall = bpf.get_syscall_fnname("kill")
@@ -50,6 +52,6 @@ try:
         print("\n=== KILL Data ===")
         for k, v in bpf["counter"].items():
             print(f"PID {k.value}: {v.value} SIGKILL signals")
-        
+
 except KeyboardInterrupt:
     print("Exiting...")
