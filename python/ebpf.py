@@ -3,6 +3,7 @@ from bcc import BPF
 from time import sleep
 
 # Everytime that user run command it will count number up along with userID
+# There could have some process running in background that make count increase with id 0
 
 program = """
 BPF_HASH(clones);
@@ -38,4 +39,3 @@ while True:
         print(s)
     else:
         print("No entries yet")
-
